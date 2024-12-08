@@ -1,5 +1,5 @@
 #lang racket
-;djdjd
+
 
 ;; 1. Function to prompt and create a Band (using lists)
 (define (sign-up-band)
