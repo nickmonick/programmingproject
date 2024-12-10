@@ -1,0 +1,119 @@
+#lang racket
+; 1. Function to prompt and create a Band (using lists)
+(define (sign-up-band);creates a function called sign-up-band
+  (display "Enter Band Name: ");questions asking user to enter band name
+  (define band-name (read-line));think of read line as a function that waits for the user to type something, then hit enter to enter the writing, for example this piece of code will prompt out a question asking enter band name, the read line will just allow users to answer the question
+  
+  (display "Enter Band Email: ")
+  (define email (read-line));just prompts a text box for users to answer with the question enter band email
+  (display "Enter Band Phone Number: ");prompts a text box for users to answer with the question enter band phone number
+  (define phone (read-line))
+  (display "Enter Band Password: ");prompts a text box for users to answer, with the question enter band password
+  (define password (read-line))
+  
+ ; create and return band as a list of key value pairs :key value pairs are just of representing data in association to a key, for example think of key value pairs to have a specific key with a corresponding to value, for example a name could be a key with alice being the associated value 
+  (list (cons 'type 'band) ;'type is the type of user (band or fan)
+        (cons 'band-name band-name);'band name is the key and band name is the value 
+        (cons 'email email);'email is the key and email is the value
+        (cons 'phone phone);'phone is the key and phone is the value 
+        (cons 'password password)));'password is the key and password is the value
+;to put it simply key-value pairs are just a way of associating a value to a key
+
+; 2. Function to prompt and create a Fan (using lists)
+(define (sign-up-fan)
+  (display "Enter Username: ")
+  (define username (read-line));prompts a text box asking users for answer to the question enter username
+  
+  (display "Enter Fan Email: ")
+  (define email (read-line));prompts a text box asking users for answer to the question enter fan email
+  
+  (display "Enter Fan Phone Number: ");prompts a text box asking users for answer to the question enter fan phone number
+  (define phone (read-line))
+  
+  (display "Enter Fan Date of Birth (YYYY-MM-DD): ");prompts a text box asking users for answer to the question enter fan date of birth
+  (define dob (read-line))
+  
+  (display "Enter Fan Password: ");prompts a text box asking users for answer to the question enter fan password
+  (define password (read-line))
+  
+; Create and return Fan info as a list of key-value pairs
+  (list (cons 'type 'fan);'type is the type of user, fan is the value of that key
+        (cons 'username username);'username is the key, username is the value to that key
+        (cons 'email email);'email is the key, email is the value of that key
+        (cons 'phone phone);'phone is the key, phone is the value to that key
+        (cons 'date-of-birth dob);'date of birth is the key, dob is the value to that key
+        (cons 'password password)));'password is the key, password is the value to that key
+
+; 3. Main Function to Handle the Sign-Up Process
+
+(define users '()) ; create an empty list to store users
+
+(define (sign-up);function called sign up
+  (display "Are you a Band or a Fan? (Enter 'band' or 'fan'): ");question asking users wheather they are fan or band
+  (define user-type (read-line));function that reads user type
+  
+  (cond;checks wheather the user wants to be a band or a fan;
+    [(string=? user-type "band")
+     (define new-band (sign-up-band))
+     (set! users (cons new-band users))
+     (displayln (format "Band signed up: ~a" new-band))];if user enters band then the cond statment calls the sign-up band function to create a new band
+    ;then it saves the new band in the users list by adding it to the front, as shown by the code (set! users (cons new-band users)), after that a confirmation message with the band details pops up as shown by band signed up
+    
+    [(string=? user-type "fan")
+     (define new-fan (sign-up-fan))
+     (set! users (cons new-fan users))
+     (displayln (format "Fan signed up: ~a" new-fan))];if user enters fan then the sign-up fan function is called and a new fan is created, it gets saved in the users list as shown by the code (set! users (cons new-fan users)), after that a confirmation message is shown with the fan details as shown by the code (displayln (format "Fan signed up: ~a"
+    [else (displayln "Invalid input. Please enter 'band' or 'fan'.")]));if band or fan arent inputted then it will give error message
+;Run the Sign-Up Process and Test
+(sign-up)
+
+;View all users (for testing purposes)
+users
+
+
+;Define a List to Store Concert Listings
+(define concert-listings '()) ; Empty list to store all concert listings
+
+
+;Function to Create a Concert Listing
+(define (create-concert);creates a function called create-concert
+  (display "Enter Band Name: ")
+  (define band-name (read-line)) ; Reads band name from the user
+  
+  (display "Enter Date  (example,2024-12-15):")
+  (define date-time (read-line)) ; Reads date and time
+   (display "enter time (example ,19:00):")
+  (define time (read-line)) ; Reads  time
+  (display "Enter Venue: ")
+  (define venue (read-line));Reads venue
+  
+  (display "Enter Cost: ")
+  (define cost (read-line)); Reads cost as a string
+  
+  ; Create a concert listing as a list of key-value pairs
+  (define concert
+    (list (cons 'band-name band-name)
+          (cons 'date-time date-time)
+          (cons 'venue venue)
+          (cons 'cost cost)))
+  
+  ; Add the new concert listing to the global list
+  (set! concert-listings (cons concert concert-listings))
+  
+  ; Confirm the concert has been created
+  (displayln "Concert listing created successfully!")
+  concert)
+; 3. function to view concert listings
+(define (view-concerts)
+  (if (null? concert-listings)
+      (displayln "No concert listings available.")
+      (for-each (lambda (concert)
+                  (displayln concert))
+                concert-listings)))
+
+
+; 4. Test the Functions
+;(create-concert) ; allows the band to create a concert
+;(view-concerts)  ; views all created concerts
+
+
