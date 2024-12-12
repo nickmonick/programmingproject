@@ -141,22 +141,4 @@ users
 ;(create-concert) ; allows the band to create a concert
 ;(view-concerts)  ; views all created concerts
 
-(define favourite-concerts '(((band-name . bob) (date-time . 2024) (venue . bobb) (cost . 100))
-    ((band-name . joe) (date-time . 2025) (venue . joee) (cost . 200))
-    ((band-name . bob) (date-time . 2023) (venue . bbbb) (cost . 300))))
-
-(define (view-favourites)
-  (if (null? favourite-concerts)
-      (displayln "No favourite concerts found" )
-      (for-each (lambda (favourite)
-                  (displayln favourite))
-                favourite-concerts)))
-
-(define (remove-concert band-name)
-  (set! favourite-concerts 
-        (filter (lambda (concert)
-                  (not (equal? (cdr (assoc 'band-name concert)) band-name)))
-                favourite-concerts)))
-  
-
 
