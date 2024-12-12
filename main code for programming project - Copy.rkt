@@ -95,7 +95,10 @@ users
     (list (cons 'band-name band-name)
           (cons 'date-time date-time)
           (cons 'venue venue)
-          (cons 'cost cost)))
+          (cons 'cost cost)
+          (cons 'fully-booked #f)
+          (cons 'cancelled #f)
+          ))
   
   ; Add the new concert listing to the global list
   (set! concert-listings (cons concert concert-listings))
@@ -111,31 +114,29 @@ users
                   (displayln concert))
                 concert-listings)))
 
-;(define edit-listing
- ; (lambda (band, listing-category, value)
-  ;  
-   ; ))
 
+;2.3 & 2.4
 (define (edit-concert-listing band-name field-type new-value)
+  (define (update-field concert-list field-type new-value)
+    (cond
+      [(empty? concert-list) 
+         '()]
+      [(equal? (car (car concert-list)) field-type) 
+         (cons (cons field-type new-value) (cdr concert-list))]
+      [else 
+         (cons (car concert-list) (update-field (cdr concert-list) field-type new-value))]))
+
   (cond
     [(empty? concert-listings) 
-       #f] ; No matching concert found
-    [(equal? (first (assoc 'band-name (first concert-listings))) band-name)
-       (cons (update-field (first concert-listings) field-type new-value) 
-             (cdr concert-listings))] ; Update the first matching concert
+       #f] 
+    [(equal? (cdr (assoc 'band-name (car concert-listings))) band-name)
+       (set! concert-listings 
+             (cons (update-field (car concert-listings) field-type new-value) 
+                   (cdr concert-listings)))] 
+       (values concert-listings) ; Return the updated list
     [else 
-       (cons (first concert-listings) 
-             (edit-concert-listing band-name field-type new-value (cdr concert-listings)))] ; Recursively search the rest of the list
-    ))
-
-(define (update-field concert-list field-type new-value)
-  (cond
-    [(empty? concert-list) 
-       '()]
-    [(equal? (first (first concert-list)) field-type) 
-       (cons (cons field-type new-value) (cdr concert-list))]
-    [else 
-       (cons (first concert-list) (update-field (cdr concert-list) field-type new-value))]))
+       (edit-concert-listing band-name field-type new-value)]) ; Recursively search the rest of the list
+  )
 
 ; 4. Test the Functions
 ;(create-concert) ; allows the band to create a concert
