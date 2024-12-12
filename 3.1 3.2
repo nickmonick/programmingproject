@@ -1,0 +1,34 @@
+#lang racket
+
+
+
+(define (date->string date)
+  (format "~a/~a/~a" (date-year date) (date-month date) (date-day date)))
+
+(define (concert-band-name concert) (car concert))
+(define (concert-venue concert) (cadr concert))
+(define (concert-date concert) (caddr concert))
+
+(define (band? user) (equal? (car user) 'band))
+
+(define users
+  '((band "The Beatles" "Wembley Stadium" (date 2023 10 1))
+    (band "Queen" "Madison Square Garden" (date 2023 10 2))
+    (artist "John Doe" "Some Venue" (date 2023 10 3))))
+
+(define (band-concerts user)
+  (if (band? user)
+      (list (list (cadr user) (caddr user) (cadddr user)))
+      '()))
+
+(define (search-concerts search-criteria)
+  (define (matches? concert criteria)
+    (or (string=? (concert-band-name concert) criteria)
+        (string=? (concert-venue concert) criteria)
+        (string=? (date->string (concert-date concert)) criteria)))
+  (filter (lambda (c) (matches? c search-criteria))
+          (apply append (map band-concerts (filter band? users)))))
+
+; Example usage
+(define results (search-concerts "The Beatles"))
+(displayln results)
