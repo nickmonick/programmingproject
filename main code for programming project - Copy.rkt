@@ -154,15 +154,10 @@ users
                 favourite-concerts)))
 
 (define (remove-concert band-name)
-  (define (remove-helper lst)
-    (cond
-      [(null? lst) 
-       '()]
-      [(equal? (cdr (assoc 'band-name (car lst))) band-name) 
-       (append (remove-helper (cdr lst)) '())] 
-      [else 
-       (cons (car lst) (remove-helper (cdr lst)))]))
-  (set! favourite-concerts (remove-helper favourite-concerts)))
+  (set! favourite-concerts 
+        (filter (lambda (concert)
+                  (not (equal? (cdr (assoc 'band-name concert)) band-name))) 
+                  favourite-concerts)))
   
 
 (view-favourites)
