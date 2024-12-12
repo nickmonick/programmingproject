@@ -1,5 +1,5 @@
 #lang racket
-;ali alaskari programming project code for requirments 1.1,1.2,2.1 and 2.2
+;ali alaskari(M01010537) programming project code for requirments 1.1,1.2,2.1 and 2.2
 ;requirments 1.1 and 1.2
 ; Function to create a Band (using lists)
 (define (sign-up-band);creates a function called sign-up-band
