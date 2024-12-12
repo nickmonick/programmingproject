@@ -142,10 +142,10 @@ users
 ;(create-concert) ; allows the band to create a concert
 ;(view-concerts)  ; views all created concerts
 
-(define favourite-concerts '(((band-name . bob) (date-time . 2024) (venue . bobb) (cost . 100))
-    ((band-name . joe) (date-time . 2025) (venue . joee) (cost . 200))
-    ((band-name . bob) (date-time . 2023) (venue . bbbb) (cost . 300))))
-
+(define favourite-concerts '(((band-name . "bob") (date-time . 2024) (venue . "bobb") (cost . 100))
+    ((band-name . "joe") (date-time . 2025) (venue . joee) (cost . 200))
+    ((band-name . "doe") (date-time . 2023) (venue . bbbb) (cost . 300))))
+;3.3
 (define (view-favourites)
   (if (null? favourite-concerts)
       (displayln "No favourite concerts found" )
@@ -154,10 +154,22 @@ users
                 favourite-concerts)))
 
 (define (remove-concert band-name)
-  (set! favourite-concerts 
-        (filter (lambda (concert)
-                  (not (equal? (cdr (assoc 'band-name concert)) band-name)))
-                favourite-concerts)))
+  (define (remove-helper lst)
+    (cond
+      [(null? lst) 
+       '()]
+      [(equal? (cdr (assoc 'band-name (car lst))) band-name) 
+       (append (remove-helper (cdr lst)) '())] 
+      [else 
+       (cons (car lst) (remove-helper (cdr lst)))]))
+  (set! favourite-concerts (remove-helper favourite-concerts)))
+  
+
+(view-favourites)
+(displayln "new:")
+(remove-concert "bob")
+(view-favourites)
+
   
 
 
