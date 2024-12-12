@@ -94,7 +94,10 @@ users
 (list (cons 'band-name band-name);'band-name is the key and band-name is the value to that key, cons adds the key value pair to the front of the list
 (cons 'date-time date-time);'date-time is the key and date-time is the value to that key, cons just adds the key-value pair to the list
 (cons 'venue venue);'venue is the key and venue is the value to that key, cons adds the key value pair to the list
-(cons 'cost cost)));'cost is the key and cost is the value to that pair, cons adds the key value pair to the front of the list
+(cons 'cost cost)
+(cons 'fully-booked #f)
+(cons 'cancelled #f)
+));'cost is the key and cost is the value to that pair, cons adds the key value pair to the front of the list
 ;Adds the new concert listing to the list
 (set! concert-listings (cons concert concert-listings));function to update concert-listings by adding a new concert to a existing list of concerts, set! updatdes the concert listing to the result of the cons operation
   
