@@ -116,27 +116,30 @@ concert);confirmation message after concert gets made
 
 
 ;2.3 & 2.4
-(define (edit-concert-listing band-name field-type new-value)
-  (define (update-field concert-list field-type new-value)
+;function takes in the name of the band and searches the concert list by the name, it takes the field-type that you want to edit and the new value you want to update the field with
+(define (edit-concert-listings band-name field-type new-value)
+  
+  (define (update-fields concert-list field-type new-value);helper function to recur between the concert listing that was matched to the band name given to update the value
     (cond
-      [(empty? concert-list) 
-         '()]
-      [(equal? (car (car concert-list)) field-type) 
-         (cons (cons field-type new-value) (cdr concert-list))]
-      [else 
-         (cons (car concert-list) (update-field (cdr concert-list) field-type new-value))]))
+      [(null? concert-list) '()] ;if the list is empty it returns an empty list
+      [(equal? (car (car concert-list)) field-type) ;checks if the field given by user and the field it has recurred to matches
+       (cons (cons field-type new-value) (cdr concert-list))];updates the field to the new value given by the user
+      [else
+       (cons (car concert-list) (update-fields (cdr concert-list) field-type new-value))])) ;recur to check the next field
 
-  (cond
-    [(empty? concert-listings) 
-       #f] 
-    [(equal? (cdr (assoc 'band-name (car concert-listings))) band-name)
-       (set! concert-listings 
-             (cons (update-field (car concert-listings) field-type new-value) 
-                   (cdr concert-listings)))] 
-       (values concert-listings) ; Return the updated list
-    [else 
-       (edit-concert-listing band-name field-type new-value)]) ; Recursively search the rest of the list
-  )
+  (define (update-concerts concerts band-name field-type new-value);helper function to scroll through all the concert listings and find which one matches the band name of the one the user gave
+    (cond
+      [(null? concerts) '()] ;if no more concerts, return an empty list
+      [(equal? (cdr (assoc 'band-name (car concerts))) band-name) ;if the band name matches it sends the current listing to the update-fields function
+       (cons (update-fields (car concerts) field-type new-value) (cdr concerts))]
+      [else
+       (cons (car concerts) (update-concerts (cdr concerts) band-name field-type new-value))])) ;recur for the next concert
+
+  (set! concert-listings (update-concerts concert-listings band-name field-type new-value))
+  (displayln "Successfully updated");user notice message
+  (values concert-listings)) ;show the updated concert list
+
+
 
 ; 4. Test the Functions
 ;(create-concert) ; allows the band to create a concert
@@ -160,11 +163,10 @@ concert);confirmation message after concert gets made
                   favourite-concerts)))
   
 
-(view-favourites)
-(displayln "new:")
-(remove-concert "bob")
-(view-favourites)
-
+;(view-favourites)
+;(displayln "new:")
+;(remove-concert "bob")
+;(view-favourites)
   
 
 
