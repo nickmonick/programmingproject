@@ -153,10 +153,10 @@ users
                   (displayln favourite))
                 favourite-concerts))) 
 
-(define (remove-concert band-name) ;function view favourites is designed to display the list of your favourite concerts stored in a variable called favourite-concerts
+(define (remove-concert band-name) ;The purpose of the function view favourites is to show the list of your favourite concerts that are kept in a variable named favorite-concerts.
   (set! favourite-concerts         ;It checks if the favourite-concerts list is empty using the null? function, If the list is empty, it prints the message: "No favourite concerts found"
         (filter (lambda (concert)
-                  (not (equal? (cdr (assoc 'band-name concert)) band-name))) ;For each favorite concert in the list, it calls displayln to print the concert details, This function provides a way to view and display all the concerts you have marked as your favorites.
+                  (not (equal? (cdr (assoc 'band-name concert)) band-name))) ;This function allows you to view and display all of the concerts you have marked as favourites. It calls displayln to print the concert details for each favourite concert in the list.
                   favourite-concerts)))
   
 ;3.4
@@ -164,8 +164,8 @@ users
 (displayln "new:")
 (remove-concert "bob") ;This function removes a concert from the favourite-concerts list based on the band name, band-name: The name of the band whose concert you want to remove from the list.
 (view-favourites) ;It works by updating the favourite-concerts list by filtering out concerts that match the given band-name
-; It checks if the value associated with the 'band-name key in a concert is equal to the given band-name,If it matches, that concert is excluded from the new list
-;he updated list is then assigned back to favourite-concerts
+; It checks if the value associated with the 'band-name key in a concert is equal to the given band-name,If it matches, that concert isnt included in the new list
+;the updated list is then assigned back to favourite-concerts
   
 
 
